@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>oliver.v.photography</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       margin: 0;
@@ -27,10 +27,36 @@
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 16px;
       padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-    .gallery img {
+    .photo-card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+    .photo-card img {
       width: 100%;
       border-radius: 12px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .download-btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 24px;
+      background: white;
+      color: black;
+      border-radius: 999px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+    .download-btn:hover {
+      background-color: #ddd;
     }
     .download {
       text-align: center;
@@ -53,9 +79,19 @@
 <div class="sub">Sports Photography</div>
 
 <div class="gallery">
-  <img src="https://via.placeholder.com/800x600">
-  <img src="https://via.placeholder.com/800x600">
-  <img src="https://via.placeholder.com/800x600">
+  <div class="photo-card">
+    <img src="https://via.placeholder.com/800x600" alt="Photo 1 Description" />
+    <a href="https://via.placeholder.com/800x600" download class="download-btn">Download Full Resolution Photo</a>
+  </div>
+  <div class="photo-card">
+    <img src="https://via.placeholder.com/800x600" alt="Photo 2 Description" />
+    <a href="https://via.placeholder.com/800x600" download class="download-btn">Download Full Resolution Photo</a>
+  </div>
+  <div class="photo-card">
+    <img src="https://via.placeholder.com/800x600" alt="Photo 3 Description" />
+    <a href="https://via.placeholder.com/800x600" download class="download-btn">Download Full Resolution Photo</a>
+  </div>
+  <!-- Add more photo-cards here -->
 </div>
 
 <div class="download">
