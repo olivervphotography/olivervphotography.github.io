@@ -1,152 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>oliver.v.photography</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      margin: 0;
-      background: #0e0e0e;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-    }
-    header {
-      text-align: center;
-      padding: 40px 20px;
-      font-size: 34px;
-      font-weight: bold;
-    }
-    .sub {
-      text-align: center;
-      color: #aaa;
-      margin-bottom: 30px;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .photo-card {
-      background: #1a1a1a;
-      border-radius: 12px;
-      padding: 12px;
-      text-align: center;
-    }
-    .photo-card img {
-      width: 100%;
-      border-radius: 12px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
-    .download-btn {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 12px 24px;
-      background: white;
-      color: black;
-      border-radius: 999px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-      cursor: pointer;
-    }
-    .download-btn:hover {
-      background-color: #ddd;
-    }
-  </style>
+<meta charset="UTF-8" />
+<title>oliver.v.photography</title>
+<style>
+  body {
+    background: #0e0e0e;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+  }
+  header {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 34px;
+    font-weight: bold;
+  }
+  .tabs {
+    display: flex;
+    justify-content: center;
+    background: #222;
+  }
+  .tab {
+    padding: 14px 24px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 3px solid transparent;
+    transition: border-bottom 0.3s ease;
+  }
+  .tab.active {
+    border-bottom: 3px solid #fff;
+    font-weight: bold;
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+  }
+  .photo-card {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+  }
+  .photo-card img {
+    width: 100%;
+    border-radius: 12px;
+    height: auto;
+  }
+  .download-btn {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 12px 24px;
+    background: white;
+    color: black;
+    border-radius: 999px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .download-btn:hover {
+    background-color: #ddd;
+  }
+  /* Hide all galleries by default */
+  .gallery-container {
+    display: none;
+  }
+  /* Show active gallery */
+  .gallery-container.active {
+    display: grid;
+  }
+</style>
 </head>
 <body>
 
 <header>oliver.v.photography</header>
-<div class="sub">Sports Photography</div>
 
-<div class="gallery">
-  <div class="photo-card">
-    <img src="photos/photo1.jpg" alt="" />
-    <a href="photos/photo1.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo2.jpg" alt="" />
-    <a href="photos/photo2.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo3.jpg" alt="" />
-    <a href="photos/photo3.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo4.jpg" alt="" />
-    <a href="photos/photo4.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo5.jpg" alt="" />
-    <a href="photos/photo5.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo6.jpg" alt="" />
-    <a href="photos/photo6.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo7.jpg" alt="" />
-    <a href="photos/photo7.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo8.jpg" alt="" />
-    <a href="photos/photo8.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo9.jpg" alt="" />
-    <a href="photos/photo9.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo10.jpg" alt="" />
-    <a href="photos/photo10.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo11.jpg" alt="" />
-    <a href="photos/photo11.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo12.jpg" alt="" />
-    <a href="photos/photo12.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo13.jpg" alt="" />
-    <a href="photos/photo13.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo14.jpg" alt="" />
-    <a href="photos/photo14.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo15.jpg" alt="" />
-    <a href="photos/photo15.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo16.jpg" alt="" />
-    <a href="photos/photo16.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo17.jpg" alt="" />
-    <a href="photos/photo17.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo18.jpg" alt="" />
-    <a href="photos/photo18.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo19.jpg" alt="" />
-    <a href="photos/photo19.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo20.jpg" alt="" />
-    <a href="photos/photo20.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
+<div class="tabs">
+  <div class="tab active" data-tab="recent">Most Recent</div>
+  <div class="tab" data-tab="game1">Game 1</div>
+  <div class="tab" data-tab="game2">Game 2</div>
 </div>
+
+<!-- Galleries -->
+
+<div id="recent" class="gallery-container active gallery">
+  <!-- Put your most recent photos here -->
+  <div class="photo-card">
+    <img src="photos/recent1.jpg" alt="" />
+    <a href="photos/recent1.jpg" download class="download-btn">Download Full Resolution Photo</a>
+  </div>
+  <!-- more photos -->
+</div>
+
+<div id="game1" class="gallery-container gallery">
+  <!-- Game 1 photos -->
+  <div class="photo-card">
+    <img src="photos/game1_1.jpg" alt="" />
+    <a href="photos/game1_1.jpg" download class="download-btn">Download Full Resolution Photo</a>
+  </div>
+  <!-- more photos -->
+</div>
+
+<div id="game2" class="gallery-container gallery">
+  <!-- Game 2 photos -->
+  <div class="photo-card">
+    <img src="photos/game2_1.jpg" alt="" />
+    <a href="photos/game2_1.jpg" download class="download-btn">Download Full Resolution Photo</a>
+  </div>
+  <!-- more photos -->
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const galleries = document.querySelectorAll('.gallery-container');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active classes
+      tabs.forEach(t => t.classList.remove('active'));
+      galleries.forEach(g => g.classList.remove('active'));
+
+      // Add active class to clicked tab and corresponding gallery
+      tab.classList.add('active');
+      const tabName = tab.getAttribute('data-tab');
+      document.getElementById(tabName).classList.add('active');
+    });
+  });
+</script>
 
 </body>
 </html>
