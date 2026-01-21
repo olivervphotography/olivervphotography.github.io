@@ -1,256 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>oliver.v.photography</title>
+  <meta charset="UTF-8" />
+  <title>oliver.v.photography</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-body {
-  margin: 0;
-  background: #0e0e0e;
-  color: white;
-  font-family: Arial, sans-serif;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-header {
-  text-align: center;
-  padding: 40px 20px 20px;
-  font-size: 34px;
-  font-weight: bold;
-}
+    body {
+      margin: 0;
+      background: #0e0e0e;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
 
-/* ---------- Tabs ---------- */
-.tabs {
-  display: flex;
-  justify-content: center;
-  background: #222;
-}
+    header {
+      text-align: center;
+      padding: 36px 20px 10px;
+      font-size: 32px;
+      font-weight: bold;
+    }
 
-.tab {
-  padding: 14px 24px;
-  cursor: pointer;
-  border-bottom: 3px solid transparent;
-  transition: border-bottom 0.3s ease;
-}
+    .sub {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 24px;
+    }
 
-.tab.active {
-  border-bottom: 3px solid #fff;
-  font-weight: bold;
-}
+    /* === GALLERY GRID === */
+    .gallery {
+      display: grid;
+      gap: 16px;
+      padding: 16px;
+      max-width: 2500px;
+      margin: 0 auto;
 
-/* ---------- Gallery ---------- */
-.gallery {
-  display: grid;
-  gap: 16px;
-  padding: 20px;
-  max-width: 2500px;
-  margin: 0 auto;
-  grid-template-columns: 1fr;
-}
+      /* Phones */
+      grid-template-columns: 1fr;
+    }
 
-@media (min-width: 600px) {
-  .gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+    /* Tablets */
+    @media (min-width: 600px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
 
-@media (min-width: 900px) {
-  .gallery {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+    /* Desktop */
+    @media (min-width: 900px) {
+      .gallery {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
 
-.gallery-container {
-  display: none;
-}
+    .photo-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+    }
 
-.gallery-container.active {
-  display: grid;
-}
+    .photo-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+      cursor: pointer;
+    }
 
-/* ---------- Photo Card ---------- */
-.photo-card {
-  position: relative;
-  background: #1a1a1a;
-  border-radius: 14px;
-  padding: 10px 10px 16px;
-  text-align: center;
-}
+    /* Center download button */
+    .download-btn {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.92);
+      color: black;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 14px;
+    }
 
-.photo-card img {
-  width: 100%;
-  border-radius: 12px;
-  cursor: pointer;
-  display: block;
-  transition: transform 0.3s ease;
-}
+    /* Hover hint */
+    .photo-card::after {
+      content: "Tap to view full screen";
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
 
-.photo-card:hover img {
-  transform: scale(1.02);
-}
+    .photo-card:hover::after {
+      opacity: 1;
+    }
 
-/* ---------- Fullscreen Hint ---------- */
-.fullscreen-hint {
-  position: absolute;
-  inset: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: bold;
-  background: rgba(0,0,0,0.35);
-  border-radius: 12px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
+    /* === FULLSCREEN VIEWER === */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
 
-.photo-card:hover .fullscreen-hint {
-  opacity: 1;
-}
+    .lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+    }
 
-/* ---------- Download Button ---------- */
-.download-btn {
-  margin-top: 14px;
-  padding: 12px 28px;
-  background: white;
-  color: black;
-  border-radius: 999px;
-  font-weight: bold;
-  text-decoration: none;
-  display: inline-block;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
+    .lightbox.active {
+      display: flex;
+    }
 
-.download-btn:hover {
-  background: #ddd;
-  transform: translateY(-1px);
-}
+    .close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 30px;
+      cursor: pointer;
+    }
 
-/* ---------- Lightbox ---------- */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
+    .nav {
+      position: absolute;
+      top: 50%;
+      font-size: 40px;
+      cursor: pointer;
+      padding: 20px;
+      user-select: none;
+    }
 
-.lightbox.active {
-  display: flex;
-}
+    .nav.prev {
+      left: 0;
+    }
 
-.lightbox img {
-  max-width: 95%;
-  max-height: 85vh;
-  border-radius: 12px;
-}
+    .nav.next {
+      right: 0;
+    }
 
-.lightbox-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 30px;
-  cursor: pointer;
-}
+    /* === FOOTER === */
+    footer {
+      text-align: center;
+      padding: 30px 16px;
+      color: #888;
+      font-size: 14px;
+    }
 
-.lightbox-download {
-  position: absolute;
-  bottom: 30px;
-  background: white;
-  color: black;
-  padding: 14px 28px;
-  border-radius: 999px;
-  font-weight: bold;
-  text-decoration: none;
-}
-</style>
+    footer a {
+      color: #aaa;
+      text-decoration: none;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>oliver.v.photography</header>
+<div class="sub">Sports Photography</div>
 
-<div class="tabs">
-  <div class="tab active" data-tab="recent">Most Recent</div>
-  <div class="tab" data-tab="game1">Game 1</div>
-  <div class="tab" data-tab="game2">Game 2</div>
-</div>
-
-<!-- ---------- MOST RECENT ---------- -->
-<div id="recent" class="gallery-container active gallery">
-
+<div class="gallery">
+  <!-- REPEAT THIS BLOCK FOR EACH PHOTO -->
   <div class="photo-card">
-    <img src="photos/DSC_9904.jpg" />
-    <div class="fullscreen-hint">View Full Screen</div>
-    <a href="photos/DSC_9904.jpg" download class="download-btn">Download Full Resolution</a>
+    <img src="photos/DSC_9904.jpeg" loading="lazy" onclick="openLightbox(0)">
+    <a href="photos/DSC_9904.jpeg" download class="download-btn">Download Full Resolution</a>
   </div>
 
-</div>
-
-<!-- ---------- GAME 1 ---------- -->
-<div id="game1" class="gallery-container gallery">
   <div class="photo-card">
-    <img src="photos/game1_1.jpg" />
-    <div class="fullscreen-hint">View Full Screen</div>
-    <a href="photos/game1_1.jpg" download class="download-btn">Download Full Resolution</a>
+    <img src="photos/DSC_9905.jpeg" loading="lazy" onclick="openLightbox(1)">
+    <a href="photos/DSC_9905.jpeg" download class="download-btn">Download Full Resolution</a>
   </div>
+
+  <!-- Add more photo-card blocks as needed -->
 </div>
 
-<!-- ---------- GAME 2 ---------- -->
-<div id="game2" class="gallery-container gallery">
-  <div class="photo-card">
-    <img src="photos/game2_1.jpg" />
-    <div class="fullscreen-hint">View Full Screen</div>
-    <a href="photos/game2_1.jpg" download class="download-btn">Download Full Resolution</a>
-  </div>
-</div>
-
-<!-- ---------- Lightbox ---------- -->
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
-  <span class="lightbox-close">&times;</span>
+  <span class="close" onclick="closeLightbox()">✕</span>
+  <span class="nav prev" onclick="changePhoto(-1)">‹</span>
   <img id="lightbox-img">
-  <a id="lightbox-download" class="lightbox-download" download>Download</a>
+  <span class="nav next" onclick="changePhoto(1)">›</span>
 </div>
+
+<footer>
+  © 2026 Oliver V Photography ·
+  <a href="https://instagram.com" target="_blank">Instagram</a>
+</footer>
 
 <script>
-/* Tabs */
-const tabs = document.querySelectorAll('.tab');
-const galleries = document.querySelectorAll('.gallery-container');
+  const images = Array.from(document.querySelectorAll(".photo-card img")).map(img => img.src);
+  let currentIndex = 0;
+  let startX = 0;
 
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    tabs.forEach(t => t.classList.remove('active'));
-    galleries.forEach(g => g.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById(tab.dataset.tab).classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  function openLightbox(index) {
+    currentIndex = index;
+    document.getElementById("lightbox-img").src = images[currentIndex];
+    document.getElementById("lightbox").classList.add("active");
+  }
+
+  function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("active");
+  }
+
+  function changePhoto(direction) {
+    currentIndex = (currentIndex + direction + images.length) % images.length;
+    document.getElementById("lightbox-img").src = images[currentIndex];
+  }
+
+  /* Swipe support */
+  const lightbox = document.getElementById("lightbox");
+
+  lightbox.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
   });
-});
 
-/* Lightbox */
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-const lightboxDownload = document.getElementById('lightbox-download');
-
-document.querySelectorAll('.photo-card img').forEach(img => {
-  img.addEventListener('click', () => {
-    lightbox.classList.add('active');
-    lightboxImg.src = img.src;
-    lightboxDownload.href = img.src;
+  lightbox.addEventListener("touchend", e => {
+    const endX = e.changedTouches[0].clientX;
+    if (startX - endX > 50) changePhoto(1);
+    if (endX - startX > 50) changePhoto(-1);
   });
-});
-
-document.querySelector('.lightbox-close').onclick = () => {
-  lightbox.classList.remove('active');
-};
-
-lightbox.onclick = e => {
-  if (e.target === lightbox) lightbox.classList.remove('active');
-};
 </script>
 
 </body>
