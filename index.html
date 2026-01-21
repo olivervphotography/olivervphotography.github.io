@@ -2,136 +2,114 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>oliver.v.photography</title>
 
 <style>
-/* =====================
-   BASE STYLES
-===================== */
 body {
+  margin: 0;
   background: #0e0e0e;
   color: white;
   font-family: Arial, sans-serif;
-  margin: 0;
 }
 
 header {
   text-align: center;
-  padding: 36px 16px;
+  padding: 40px 20px 20px;
   font-size: 34px;
   font-weight: bold;
 }
 
-/* =====================
-   TABS
-===================== */
+/* ---------- Tabs ---------- */
 .tabs {
   display: flex;
   justify-content: center;
   background: #222;
-  position: sticky;
-  top: 0;
-  z-index: 10;
 }
 
 .tab {
-  padding: 14px 22px;
+  padding: 14px 24px;
   cursor: pointer;
   border-bottom: 3px solid transparent;
-  transition: border-color 0.25s ease, color 0.25s ease;
-}
-
-.tab:hover {
-  color: #ddd;
+  transition: border-bottom 0.3s ease;
 }
 
 .tab.active {
-  border-bottom: 3px solid white;
+  border-bottom: 3px solid #fff;
   font-weight: bold;
 }
 
-/* =====================
-   GALLERY GRID (Mobile First)
-===================== */
+/* ---------- Gallery Layout ---------- */
 .gallery {
   display: grid;
   gap: 16px;
-  padding: 14px;
-  max-width: 1400px;
+  padding: 20px;
+  max-width: 1200px;
   margin: 0 auto;
   grid-template-columns: 1fr;
 }
 
-/* Tablets */
 @media (min-width: 600px) {
   .gallery {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Desktop */
 @media (min-width: 900px) {
   .gallery {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* =====================
-   PHOTO CARD
-===================== */
-.photo-card {
-  transition: transform 0.25s ease;
-}
-
-.photo-card:hover {
-  transform: scale(1.02);
-}
-
-.photo-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 14px;
-  display: block;
-  cursor: pointer;
-}
-
-/* =====================
-   DOWNLOAD BUTTON
-===================== */
-.download-btn {
-  display: block;
-  margin: 10px auto 0;
-  padding: 12px 26px;
-  background: white;
-  color: black;
-  border-radius: 999px;
-  font-weight: bold;
-  text-decoration: none;
-  text-align: center;
-  transition: background 0.25s ease, transform 0.2s ease;
-}
-
-.download-btn:hover {
-  background: #ddd;
-  transform: translateY(-2px);
-}
-
-/* =====================
-   TAB CONTENT VISIBILITY
-===================== */
 .gallery-container {
   display: none;
 }
 
 .gallery-container.active {
-  display: block;
+  display: grid;
 }
 
-/* =====================
-   FULLSCREEN VIEWER
-===================== */
-.viewer {
+/* ---------- Photo Cards ---------- */
+.photo-card {
+  background: #1a1a1a;
+  border-radius: 14px;
+  padding: 10px;
+  transition: transform 0.25s ease;
+}
+
+.photo-card:hover {
+  transform: translateY(-3px);
+}
+
+.photo-card img {
+  width: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.photo-card img:hover {
+  transform: scale(1.02);
+}
+
+/* ---------- Download Button ---------- */
+.download-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 24px;
+  background: white;
+  color: black;
+  border-radius: 999px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.download-btn:hover {
+  background: #ddd;
+}
+
+/* ---------- Lightbox ---------- */
+.lightbox {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.95);
@@ -141,14 +119,41 @@ header {
   z-index: 999;
 }
 
-.viewer img {
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox img {
   max-width: 95%;
-  max-height: 95%;
+  max-height: 85vh;
   border-radius: 12px;
 }
 
-.viewer.active {
-  display: flex;
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.lightbox-download {
+  position: absolute;
+  bottom: 30px;
+  background: white;
+  color: black;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* ---------- Game Header ---------- */
+.game-title {
+  text-align: center;
+  color: #aaa;
+  margin-top: 20px;
+  font-size: 16px;
 }
 </style>
 </head>
@@ -161,58 +166,50 @@ header {
   <div class="tab active" data-tab="recent">Most Recent</div>
   <div class="tab" data-tab="game1">Game 1</div>
   <div class="tab" data-tab="game2">Game 2</div>
-  <div class="tab" data-tab="game3">Game 3</div>
 </div>
 
-<!-- =====================
-     GALLERIES
-===================== -->
+<!-- ---------- Most Recent ---------- -->
+<div id="recent" class="gallery-container active gallery">
+  <div class="game-title">Most Recent Game</div>
 
-<div id="recent" class="gallery-container active">
-  <div class="gallery">
+  <!-- Repeat photo-card 20x -->
+  <div class="photo-card">
+    <img src="photos/DSC_9904.jpg" />
+    <a href="photos/DSC_9904.jpg" download class="download-btn">Download Full Resolution</a>
+  </div>
 
-    <!-- COPY THIS BLOCK FOR EACH PHOTO -->
-    <div class="photo-card">
-      <img src="photos/DSC_9904.jpg" alt="" />
-      <a href="photos/DSC_9904.jpg" download class="download-btn">
-        Download Full Resolution Photo
-      </a>
-    </div>
+  <!-- copy more photo-cards here -->
+</div>
 
-    <!-- add more photos here -->
+<!-- ---------- Game 1 ---------- -->
+<div id="game1" class="gallery-container gallery">
+  <div class="game-title">Varsity Football • Sept 15</div>
 
+  <div class="photo-card">
+    <img src="photos/game1_1.jpg" />
+    <a href="photos/game1_1.jpg" download class="download-btn">Download Full Resolution</a>
   </div>
 </div>
 
-<div id="game1" class="gallery-container">
-  <div class="gallery">
-    <!-- Game 1 photos -->
+<!-- ---------- Game 2 ---------- -->
+<div id="game2" class="gallery-container gallery">
+  <div class="game-title">Away Game • Sept 8</div>
+
+  <div class="photo-card">
+    <img src="photos/game2_1.jpg" />
+    <a href="photos/game2_1.jpg" download class="download-btn">Download Full Resolution</a>
   </div>
 </div>
 
-<div id="game2" class="gallery-container">
-  <div class="gallery">
-    <!-- Game 2 photos -->
-  </div>
-</div>
-
-<div id="game3" class="gallery-container">
-  <div class="gallery">
-    <!-- Game 3 photos -->
-  </div>
-</div>
-
-<!-- =====================
-     FULLSCREEN VIEWER
-===================== -->
-<div class="viewer" id="viewer">
-  <img id="viewerImg" src="" />
+<!-- ---------- Lightbox ---------- -->
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close">&times;</span>
+  <img id="lightbox-img">
+  <a id="lightbox-download" class="lightbox-download" download>Download</a>
 </div>
 
 <script>
-/* =====================
-   TAB SWITCHING
-===================== */
+/* ---------- Tabs ---------- */
 const tabs = document.querySelectorAll('.tab');
 const galleries = document.querySelectorAll('.gallery-container');
 
@@ -223,51 +220,37 @@ tabs.forEach(tab => {
 
     tab.classList.add('active');
     document.getElementById(tab.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });
 
-/* =====================
-   FULLSCREEN + SWIPE
-===================== */
-const viewer = document.getElementById('viewer');
-const viewerImg = document.getElementById('viewerImg');
-let images = [];
-let currentIndex = 0;
+/* ---------- Lightbox ---------- */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxDownload = document.getElementById('lightbox-download');
 
-document.querySelectorAll('.photo-card img').forEach((img, index) => {
-  images.push(img.src);
-
+document.querySelectorAll('.photo-card img').forEach(img => {
   img.addEventListener('click', () => {
-    currentIndex = index;
-    viewerImg.src = img.src;
-    viewer.classList.add('active');
+    lightbox.classList.add('active');
+    lightboxImg.src = img.src;
+    lightboxDownload.href = img.src;
   });
 });
 
-viewer.addEventListener('click', () => {
-  viewer.classList.remove('active');
-});
+document.querySelector('.lightbox-close').onclick = () => {
+  lightbox.classList.remove('active');
+};
 
-/* Swipe support */
+lightbox.onclick = e => {
+  if (e.target === lightbox) lightbox.classList.remove('active');
+};
+
+/* ---------- Swipe Support ---------- */
 let startX = 0;
-
-viewer.addEventListener('touchstart', e => {
-  startX = e.touches[0].clientX;
-});
-
-viewer.addEventListener('touchend', e => {
-  let endX = e.changedTouches[0].clientX;
-  let diff = startX - endX;
-
-  if (Math.abs(diff) > 50) {
-    if (diff > 0) currentIndex++;
-    else currentIndex--;
-
-    if (currentIndex < 0) currentIndex = images.length - 1;
-    if (currentIndex >= images.length) currentIndex = 0;
-
-    viewerImg.src = images[currentIndex];
-  }
+lightboxImg.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+lightboxImg.addEventListener('touchend', e => {
+  let diff = e.changedTouches[0].clientX - startX;
+  if (Math.abs(diff) > 50) lightbox.classList.remove('active');
 });
 </script>
 
