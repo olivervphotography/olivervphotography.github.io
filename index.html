@@ -34,12 +34,62 @@
   }
   .gallery {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* exactly 3 columns, each equal width */
-  gap: 20px; /* space between photos */
+  gap: 16px;
   padding: 20px;
-  max-width: 2000px; /* or whatever max width you prefer */
+  max-width: 1200px;
   margin: 0 auto;
+  grid-template-columns: 1fr; /* phones */
+}
+
+/* Tablets */
+@media (min-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Extra phone tweak – slightly less padding */
+@media (max-width: 599px) {
+  .gallery {
+    padding: 12px;
+  }
+}
+
+.photo-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+
+/* Medium screens (tablets) — 2 columns */
+@media (min-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Large screens (desktop) — 3 columns */
+@media (min-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.photo-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+
   .photo-card img {
   width: 100%;
   height: auto; /* keeps original photo ratio */
@@ -191,7 +241,7 @@
   <!-- more photos -->
 </div>
 
-  <div id="game3" class="gallery-container active gallery">
+  <div id="game3" class="gallery-container gallery">
     
   <div class="photo-card">
     <img src="photos/DSC_9904.jp" alt="" />
@@ -203,17 +253,15 @@
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      // Remove active classes
       tabs.forEach(t => t.classList.remove('active'));
       galleries.forEach(g => g.classList.remove('active'));
 
-      // Add active class to clicked tab and corresponding gallery
       tab.classList.add('active');
-      const tabName = tab.getAttribute('data-tab');
-      document.getElementById(tabName).classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
     });
   });
 </script>
+
 
 </body>
 </html>
