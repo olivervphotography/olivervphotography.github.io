@@ -1,168 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>oliver.v.photography</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<title>oliver.v.photography</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+  * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      background: #0e0e0e;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-    }
+  body {
+    margin: 0;
+    background: #0e0e0e;
+    color: white;
+    font-family: Arial, sans-serif;
+  }
 
-    header {
-      text-align: center;
-      padding: 36px 20px 10px;
-      font-size: 32px;
-      font-weight: bold;
-    }
+  header {
+    text-align: center;
+    padding: 36px 20px 10px;
+    font-size: 32px;
+    font-weight: bold;
+  }
 
-    .sub {
-      text-align: center;
-      color: #aaa;
-      margin-bottom: 24px;
-    }
+  .sub {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 16px;
+  }
 
-    /* === GALLERY GRID === */
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    border-bottom: 1px solid #222;
+    margin-bottom: 20px;
+  }
+
+  .tab {
+    padding: 14px 10px;
+    cursor: pointer;
+    color: #aaa;
+    border-bottom: 3px solid transparent;
+    font-weight: bold;
+  }
+
+  .tab.active {
+    color: white;
+    border-bottom: 3px solid white;
+  }
+
+  /* ===== GALLERY ===== */
+  .gallery {
+    display: none;
+    gap: 16px;
+    padding: 16px;
+    max-width: 1400px;
+    margin: 0 auto;
+    grid-template-columns: 1fr;
+  }
+
+  .gallery.active {
+    display: grid;
+  }
+
+  @media (min-width: 600px) {
     .gallery {
-      display: grid;
-      gap: 16px;
-      padding: 16px;
-      max-width: 2500px;
-      margin: 0 auto;
-
-      /* Phones */
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
     }
+  }
 
-    /* Tablets */
-    @media (min-width: 600px) {
-      .gallery {
-        grid-template-columns: repeat(2, 1fr);
-      }
+  @media (min-width: 900px) {
+    .gallery {
+      grid-template-columns: repeat(3, 1fr);
     }
+  }
 
-    /* Desktop */
-    @media (min-width: 900px) {
-      .gallery {
-        grid-template-columns: repeat(3, 1fr);
-      }
+  .photo-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+  }
+
+  .photo-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.35s ease;
+  }
+
+  /* Subtle hover movement (desktop only) */
+  @media (hover: hover) {
+    .photo-card:hover img {
+      transform: scale(1.04);
     }
+  }
 
-    .photo-card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 14px;
-    }
+  /* Download button */
+  .download-btn {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.92);
+    color: black;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+  }
 
-    .photo-card img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 14px;
-      cursor: pointer;
-    }
+  /* Fullscreen hint */
+  .photo-card::after {
+    content: "Tap to view full screen";
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
 
-    /* Center download button */
-    .download-btn {
-      position: absolute;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.92);
-      color: black;
-      padding: 12px 20px;
-      border-radius: 999px;
-      font-weight: bold;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    /* Hover hint */
-    .photo-card::after {
-      content: "Tap to view full screen";
-      position: absolute;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.6);
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 12px;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-
+  @media (hover: hover) {
     .photo-card:hover::after {
       opacity: 1;
     }
+  }
 
-    /* === FULLSCREEN VIEWER === */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.95);
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-    }
+  /* ===== LIGHTBOX ===== */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .lightbox img {
-      max-width: 100%;
-      max-height: 100%;
-    }
+  .lightbox.active {
+    display: flex;
+  }
 
-    .lightbox.active {
-      display: flex;
-    }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+  }
 
-    .close {
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      font-size: 30px;
-      cursor: pointer;
-    }
+  .close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+  }
 
-    .nav {
-      position: absolute;
-      top: 50%;
-      font-size: 40px;
-      cursor: pointer;
-      padding: 20px;
-      user-select: none;
-    }
+  .nav {
+    position: absolute;
+    top: 50%;
+    font-size: 40px;
+    cursor: pointer;
+    padding: 20px;
+    user-select: none;
+  }
 
-    .nav.prev {
-      left: 0;
-    }
+  .prev { left: 0; }
+  .next { right: 0; }
 
-    .nav.next {
-      right: 0;
-    }
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 30px 16px;
+    color: #888;
+    font-size: 14px;
+  }
 
-    /* === FOOTER === */
-    footer {
-      text-align: center;
-      padding: 30px 16px;
-      color: #888;
-      font-size: 14px;
-    }
-
-    footer a {
-      color: #aaa;
-      text-decoration: none;
-    }
-  </style>
+  footer a {
+    color: #aaa;
+    text-decoration: none;
+  }
+</style>
 </head>
 
 <body>
@@ -170,19 +195,35 @@
 <header>oliver.v.photography</header>
 <div class="sub">Sports Photography</div>
 
-<div class="gallery">
-  <!-- REPEAT THIS BLOCK FOR EACH PHOTO -->
-  <div class="photo-card">
-    <img src="photos/DSC_9904.jpg" loading="lazy" onclick="openLightbox(0)">
-    <a href="photos/DSC_9904.jpg" download class="download-btn">Download Full Resolution</a>
-  </div>
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" data-tab="recent">Most Recent</div>
+  <div class="tab" data-tab="game1">Game 1</div>
+  <div class="tab" data-tab="game2">Game 2</div>
+</div>
 
+<!-- MOST RECENT -->
+<div id="recent" class="gallery active">
   <div class="photo-card">
-    <img src="photos/DSC_5761.jpg" loading="lazy" onclick="openLightbox(1)">
-    <a href="photos/DSC_5761.jpg" download class="download-btn">Download Full Resolution</a>
+    <img src="photos/DSC_9904.jpeg" loading="lazy" onclick="openLightbox(this)">
+    <a href="photos/DSC_9904.jpeg" download class="download-btn">Download Full Resolution</a>
   </div>
+</div>
 
-  <!-- Add more photo-card blocks as needed -->
+<!-- GAME 1 -->
+<div id="game1" class="gallery">
+  <div class="photo-card">
+    <img src="photos/game1_01.jpeg" loading="lazy" onclick="openLightbox(this)">
+    <a href="photos/game1_01.jpeg" download class="download-btn">Download Full Resolution</a>
+  </div>
+</div>
+
+<!-- GAME 2 -->
+<div id="game2" class="gallery">
+  <div class="photo-card">
+    <img src="photos/game2_01.jpeg" loading="lazy" onclick="openLightbox(this)">
+    <a href="photos/game2_01.jpeg" download class="download-btn">Download Full Resolution</a>
+  </div>
 </div>
 
 <!-- LIGHTBOX -->
@@ -195,17 +236,31 @@
 
 <footer>
   © 2026 Oliver V Photography ·
-  <a href="https://instagram.com" target="_blank">Instagram</a>
+  <a href="https://instagram.com/YOUR_INSTAGRAM_USERNAME" target="_blank">Instagram</a>
 </footer>
 
 <script>
-  const images = Array.from(document.querySelectorAll(".photo-card img")).map(img => img.src);
+  const tabs = document.querySelectorAll(".tab");
+  const galleries = document.querySelectorAll(".gallery");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      galleries.forEach(g => g.classList.remove("active"));
+
+      tab.classList.add("active");
+      document.getElementById(tab.dataset.tab).classList.add("active");
+    });
+  });
+
+  let images = [];
   let currentIndex = 0;
   let startX = 0;
 
-  function openLightbox(index) {
-    currentIndex = index;
-    document.getElementById("lightbox-img").src = images[currentIndex];
+  function openLightbox(img) {
+    images = Array.from(img.closest(".gallery").querySelectorAll("img"));
+    currentIndex = images.indexOf(img);
+    document.getElementById("lightbox-img").src = images[currentIndex].src;
     document.getElementById("lightbox").classList.add("active");
   }
 
@@ -213,12 +268,11 @@
     document.getElementById("lightbox").classList.remove("active");
   }
 
-  function changePhoto(direction) {
-    currentIndex = (currentIndex + direction + images.length) % images.length;
-    document.getElementById("lightbox-img").src = images[currentIndex];
+  function changePhoto(dir) {
+    currentIndex = (currentIndex + dir + images.length) % images.length;
+    document.getElementById("lightbox-img").src = images[currentIndex].src;
   }
 
-  /* Swipe support */
   const lightbox = document.getElementById("lightbox");
 
   lightbox.addEventListener("touchstart", e => {
