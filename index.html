@@ -39,12 +39,12 @@ header {
   font-weight: bold;
 }
 
-/* ---------- Gallery Layout ---------- */
+/* ---------- Gallery ---------- */
 .gallery {
   display: grid;
   gap: 16px;
   padding: 20px;
-  max-width: 2500px;
+  max-width: 1400px;
   margin: 0 auto;
   grid-template-columns: 1fr;
 }
@@ -69,43 +69,63 @@ header {
   display: grid;
 }
 
-/* ---------- Photo Cards ---------- */
+/* ---------- Photo Card ---------- */
 .photo-card {
+  position: relative;
   background: #1a1a1a;
   border-radius: 14px;
-  padding: 10px;
-  transition: transform 0.25s ease;
-}
-
-.photo-card:hover {
-  transform: translateY(-3px);
+  padding: 10px 10px 16px;
+  text-align: center;
 }
 
 .photo-card img {
   width: 100%;
   border-radius: 12px;
   cursor: pointer;
+  display: block;
   transition: transform 0.3s ease;
 }
 
-.photo-card img:hover {
+.photo-card:hover img {
   transform: scale(1.02);
+}
+
+/* ---------- Fullscreen Hint ---------- */
+.fullscreen-hint {
+  position: absolute;
+  inset: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  background: rgba(0,0,0,0.35);
+  border-radius: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.photo-card:hover .fullscreen-hint {
+  opacity: 1;
 }
 
 /* ---------- Download Button ---------- */
 .download-btn {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 12px 24px;
+  margin-top: 14px;
+  padding: 12px 28px;
   background: white;
   color: black;
   border-radius: 999px;
   font-weight: bold;
   text-decoration: none;
+  display: inline-block;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .download-btn:hover {
   background: #ddd;
+  transform: translateY(-1px);
 }
 
 /* ---------- Lightbox ---------- */
@@ -147,14 +167,6 @@ header {
   font-weight: bold;
   text-decoration: none;
 }
-
-/* ---------- Game Header ---------- */
-.game-title {
-  text-align: center;
-  color: #aaa;
-  margin: 20px 0 10px;
-  font-size: 15px;
-}
 </style>
 </head>
 
@@ -168,105 +180,31 @@ header {
   <div class="tab" data-tab="game2">Game 2</div>
 </div>
 
-<!-- ---------- Most Recent ---------- -->
+<!-- ---------- MOST RECENT ---------- -->
 <div id="recent" class="gallery-container active gallery">
 
-  <!-- Repeat photo-card 20x -->
   <div class="photo-card">
     <img src="photos/DSC_9904.jpg" />
-    <a href="photos/DSC_9904.jpg" download class="download-btn">Download Full Resolution Photo</a>
+    <div class="fullscreen-hint">View Full Screen</div>
+    <a href="photos/DSC_9904.jpg" download class="download-btn">Download Full Resolution</a>
   </div>
-<div class="photo-card">
-    <img src="photos/DSC_5761.jpg" />
-    <a href="photos/DSC_5761.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/game1_1.jpg" />
-    <a href="photos/game1_1.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/game1_1.jpg" />
-    <a href="photos/game1_1.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/game1_1.jpg" />
-    <a href="photos/game1_1.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo6.jpg" />
-    <a href="photos/photo6.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo7.jpg" />
-    <a href="photos/photo7.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo8.jpg" />
-    <a href="photos/photo8.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo9.jpg" />
-    <a href="photos/photo9.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo10.jpg" />
-    <a href="photos/photo10.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo11.jpg" />
-    <a href="photos/photo11.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo12.jpg" />
-    <a href="photos/photo12.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo13.jpg" />
-    <a href="photos/photo13.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo14.jpg" />
-    <a href="photos/photo14.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo15.jpg" />
-    <a href="photos/photo15.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/DSC_5761.jpg" />
-    <a href="photos/DSC_5761.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo17.jpg" />
-    <a href="photos/photo17.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo18.jpg" />
-    <a href="photos/photo18.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo19.jpg" />
-    <a href="photos/photo19.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
-  <div class="photo-card">
-    <img src="photos/photo20.jpg" />
-    <a href="photos/photo20.jpg" download class="download-btn">Download Full Resolution Photo</a>
-  </div>
+
 </div>
 
+<!-- ---------- GAME 1 ---------- -->
 <div id="game1" class="gallery-container gallery">
-
   <div class="photo-card">
     <img src="photos/game1_1.jpg" />
+    <div class="fullscreen-hint">View Full Screen</div>
     <a href="photos/game1_1.jpg" download class="download-btn">Download Full Resolution</a>
   </div>
 </div>
 
-<!-- ---------- Game 2 ---------- -->
+<!-- ---------- GAME 2 ---------- -->
 <div id="game2" class="gallery-container gallery">
-
   <div class="photo-card">
     <img src="photos/game2_1.jpg" />
+    <div class="fullscreen-hint">View Full Screen</div>
     <a href="photos/game2_1.jpg" download class="download-btn">Download Full Resolution</a>
   </div>
 </div>
@@ -279,7 +217,7 @@ header {
 </div>
 
 <script>
-/* ---------- Tabs ---------- */
+/* Tabs */
 const tabs = document.querySelectorAll('.tab');
 const galleries = document.querySelectorAll('.gallery-container');
 
@@ -287,14 +225,13 @@ tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     tabs.forEach(t => t.classList.remove('active'));
     galleries.forEach(g => g.classList.remove('active'));
-
     tab.classList.add('active');
     document.getElementById(tab.dataset.tab).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });
 
-/* ---------- Lightbox ---------- */
+/* Lightbox */
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
 const lightboxDownload = document.getElementById('lightbox-download');
@@ -314,14 +251,6 @@ document.querySelector('.lightbox-close').onclick = () => {
 lightbox.onclick = e => {
   if (e.target === lightbox) lightbox.classList.remove('active');
 };
-
-/* ---------- Swipe Support ---------- */
-let startX = 0;
-lightboxImg.addEventListener('touchstart', e => startX = e.touches[0].clientX);
-lightboxImg.addEventListener('touchend', e => {
-  let diff = e.changedTouches[0].clientX - startX;
-  if (Math.abs(diff) > 50) lightbox.classList.remove('active');
-});
 </script>
 
 </body>
