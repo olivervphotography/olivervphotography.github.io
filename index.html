@@ -6,257 +6,329 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
-/* ---------- BASE (UNCHANGED LOOK) ---------- */
-body {
-  background: #0e0e0e;
-  color: white;
-  font-family: Arial, sans-serif;
-  margin: 0;
-}
+  * { box-sizing: border-box; }
 
-header {
-  text-align: center;
-  padding: 40px 20px;
-  font-size: 34px;
-  font-weight: bold;
-}
+  body {
+    margin: 0;
+    background: #0e0e0e;
+    color: white;
+    font-family: Arial, sans-serif;
+  }
 
-/* ---------- TABS (NOW STICKY ON MOBILE) ---------- */
-.tabs {
-  display: flex;
-  justify-content: center;
-  background: #222;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
+  header {
+    text-align: center;
+    padding: 36px 20px 10px;
+    font-size: 32px;
+    font-weight: bold;
+  }
 
-.tab {
-  padding: 14px 24px;
-  cursor: pointer;
-  user-select: none;
-  border-bottom: 3px solid transparent;
-  transition: border-bottom 0.3s ease;
-}
+  .sub {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 16px;
+  }
 
-.tab.active {
-  border-bottom: 3px solid #fff;
-  font-weight: bold;
-}
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    border-bottom: 1px solid #222;
+    margin-bottom: 20px;
+    background: #0e0e0e;
+  }
 
-/* ---------- GALLERY GRID (UNCHANGED LAYOUT) ---------- */
-.gallery {
-  display: grid;
-  gap: 16px;
-  padding: 20px;
-  max-width: 2500px;
-  margin: 0 auto;
-  grid-template-columns: 1fr;
-}
+  /* ===== ADDED: Sticky mobile tabs ===== */
+  @media (max-width: 768px) {
+    .tabs {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+  }
 
-@media (min-width: 600px) {
-  .gallery { grid-template-columns: repeat(2, 1fr); }
-}
-@media (min-width: 900px) {
-  .gallery { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 599px) {
-  .gallery { padding: 12px; }
-}
+  .tab {
+    padding: 14px 10px;
+    cursor: pointer;
+    color: #aaa;
+    border-bottom: 3px solid transparent;
+    font-weight: bold;
+  }
 
-/* ---------- PHOTO CARD (MOTION + BLUR-UP) ---------- */
-.photo-card {
-  position: relative;
-  background: #1a1a1a;
-  border-radius: 14px;
-  padding: 10px 10px 16px;
-  text-align: center;
-  overflow: hidden;
-}
+  .tab.active {
+    color: white;
+    border-bottom: 3px solid white;
+  }
 
-/* Blur-up image */
-.photo-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  display: block;
-  filter: blur(18px);
-  transform: scale(1.05);
-  transition: filter 0.6s ease, transform 0.6s ease;
-  cursor: pointer;
-}
+  /* ===== GALLERY ===== */
+  .gallery {
+    display: none;
+    gap: 16px;
+    padding: 16px;
+    max-width: 2500px;
+    margin: 0 auto;
+    grid-template-columns: 1fr;
+  }
 
-/* When loaded */
-.photo-card img.loaded {
-  filter: blur(0);
-  transform: scale(1);
-}
+  .gallery.active {
+    display: grid;
+  }
 
-/* Hover motion polish */
-.photo-card:hover img {
-  transform: scale(1.03);
-}
+  @media (min-width: 600px) {
+    .gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 
-/* ---------- FULLSCREEN HINT ---------- */
-.fullscreen-hint {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: bold;
-  background: rgba(0,0,0,0.35);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
+  @media (min-width: 900px) {
+    .gallery {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
 
-.photo-card:hover .fullscreen-hint {
-  opacity: 1;
-}
+  .photo-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+  }
 
-/* ---------- DOWNLOAD BUTTON ---------- */
-.download-btn {
-  margin-top: 14px;
-  padding: 12px 28px;
-  background: white;
-  color: black;
-  border-radius: 999px;
-  font-weight: bold;
-  text-decoration: none;
-  display: inline-block;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
+  .photo-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.35s ease, filter 0.4s ease;
+    filter: blur(18px); /* ADDED: blur-up start */
+  }
 
-.download-btn:hover {
-  background: #ddd;
-  transform: translateY(-1px);
-}
+  /* ADDED: blur-up loaded state */
+  .photo-card img.loaded {
+    filter: blur(0);
+  }
 
-/* ---------- TAB VISIBILITY ---------- */
-.gallery-container {
-  display: none;
-}
-.gallery-container.active {
-  display: grid;
-}
+  /* Subtle hover movement (desktop only) */
+  @media (hover: hover) {
+    .photo-card:hover img {
+      transform: scale(1.04);
+    }
+  }
+
+  /* Download button */
+  .download-btn {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.92);
+    color: black;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  /* Fullscreen hint */
+  .photo-card::after {
+    content: "Tap to view full screen";
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  @media (hover: hover) {
+    .photo-card:hover::after {
+      opacity: 1;
+    }
+  }
+
+  /* ===== LIGHTBOX ===== */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lightbox.active {
+    display: flex;
+  }
+
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+  }
+
+  .nav {
+    position: absolute;
+    top: 50%;
+    font-size: 40px;
+    cursor: pointer;
+    padding: 20px;
+    user-select: none;
+  }
+
+  .prev { left: 0; }
+  .next { right: 0; }
+
+  /* ===== ADDED: Fullscreen download button ===== */
+  .lightbox-download {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    color: black;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 30px 16px;
+    color: #888;
+    font-size: 14px;
+  }
+
+  footer a {
+    color: #aaa;
+    text-decoration: none;
+  }
 </style>
 </head>
 
 <body>
 
 <header>oliver.v.photography</header>
+<div class="sub">Sports Photography</div>
 
+<!-- TABS -->
 <div class="tabs">
   <div class="tab active" data-tab="recent">Most Recent</div>
   <div class="tab" data-tab="game1">Game 1</div>
   <div class="tab" data-tab="game2">Game 2</div>
 </div>
 
-<!-- ---------- MOST RECENT ---------- -->
-<div id="recent" class="gallery-container active gallery">
-<div id="recent" class="gallery-container active gallery">
-
+<!-- MOST RECENT -->
+<div id="recent" class="gallery active">
   <div class="photo-card">
-    <img
-      src="photos/previews1/DSC_9904.jpg"
-      data-full="photos/full1/DSC_9904.jpg"
-      loading="lazy"
-      alt=""
-    />
-
-    <div class="fullscreen-hint">
-      Tap to view full screen
-    </div>
-
-    <a
-      href="photos/full/DSC_9904.jpg"
-      download
-      class="download-btn"
-    >
-      Download Full Resolution
-    </a>
+    <img src="photos/DSC_9904.jpg" loading="lazy" onclick="openLightbox(this)">
+    <a href="photos/DSC_9904.jpg" download class="download-btn">Download Full Resolution</a>
   </div>
-
-</div>
-<div id="recent" class="gallery-container active gallery">
-
   <div class="photo-card">
-    <img
-      src="photos/previews1/DSC_5761.jpg"
-      data-full="photos/full1/DSC_57614.jpg"
-      loading="lazy"
-      alt=""
-    />
-
-    <div class="fullscreen-hint">
-      Tap to view full screen
-    </div>
-
-    <a
-      href="photos/full/DSC_5761.jpg"
-      download
-      class="download-btn"
-    >
-      Download Full Resolution
-    </a>
+    <img src="photos/DSC_5761.jpg" loading="lazy" onclick="openLightbox(this)">
+    <a href="photos/DSC_5761.jpg" download class="download-btn">Download Full Resolution</a>
   </div>
-
 </div>
 
-
+<!-- GAME 1 -->
+<div id="game1" class="gallery">
+  <div class="photo-card">
+    <img src="photos/game1_01.jpeg" loading="lazy" onclick="openLightbox(this)">
+    <a href="photos/game1_01.jpeg" download class="download-btn">Download Full Resolution</a>
+  </div>
 </div>
 
-<!-- ---------- GAME 1 ---------- -->
-<div id="game1" class="gallery-container gallery"></div>
+<!-- GAME 2 -->
+<div id="game2" class="gallery">
+  <div class="photo-card">
+    <img src="photos/game2_01.jpeg" loading="lazy" onclick="openLightbox(this)">
+    <a href="photos/game2_01.jpeg" download class="download-btn">Download Full Resolution</a>
+  </div>
+</div>
 
-<!-- ---------- GAME 2 ---------- -->
-<div id="game2" class="gallery-container gallery"></div>
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <span class="close" onclick="closeLightbox()">✕</span>
+  <span class="nav prev" onclick="changePhoto(-1)">‹</span>
+  <img id="lightbox-img">
+  <a id="lightbox-download" class="lightbox-download" download>Download Full Resolution</a>
+  <span class="nav next" onclick="changePhoto(1)">›</span>
+</div>
 
-<!-- ---------- SCRIPT ---------- -->
+<footer>
+  © 2026 Oliver V Photography ·
+  <a href="https://instagram.com/oliver.v.photography" target="_blank">Instagram</a>
+</footer>
+
 <script>
-/* Tabs */
-const tabs = document.querySelectorAll('.tab');
-const galleries = document.querySelectorAll('.gallery-container');
+  const tabs = document.querySelectorAll(".tab");
+  const galleries = document.querySelectorAll(".gallery");
 
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    tabs.forEach(t => t.classList.remove('active'));
-    galleries.forEach(g => g.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById(tab.dataset.tab).classList.add('active');
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      galleries.forEach(g => g.classList.remove("active"));
+
+      tab.classList.add("active");
+      document.getElementById(tab.dataset.tab).classList.add("active");
+    });
   });
-});
 
-/* Blur-up loading */
-document.querySelectorAll('.photo-card img').forEach(img => {
-  img.onload = () => img.classList.add('loaded');
-});
+  let images = [];
+  let currentIndex = 0;
+  let startX = 0;
 
-/* Fullscreen viewer */
-document.querySelectorAll('.photo-card img').forEach(img => {
-  img.addEventListener('click', () => {
-    const fullSrc = img.dataset.full || img.src;
-    const viewer = document.createElement('div');
-    viewer.style.position = 'fixed';
-    viewer.style.inset = '0';
-    viewer.style.background = 'rgba(0,0,0,0.95)';
-    viewer.style.display = 'flex';
-    viewer.style.alignItems = 'center';
-    viewer.style.justifyContent = 'center';
-    viewer.style.zIndex = '1000';
+  function openLightbox(img) {
+    images = Array.from(img.closest(".gallery").querySelectorAll("img"));
+    currentIndex = images.indexOf(img);
+    const src = images[currentIndex].src;
+    document.getElementById("lightbox-img").src = src;
+    document.getElementById("lightbox-download").href = src;
+    document.getElementById("lightbox").classList.add("active");
+  }
 
-    const fullImg = document.createElement('img');
-    fullImg.src = fullSrc;
-    fullImg.style.maxWidth = '100%';
-    fullImg.style.maxHeight = '100%';
+  function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("active");
+  }
 
-    viewer.appendChild(fullImg);
-    viewer.onclick = () => viewer.remove();
-    document.body.appendChild(viewer);
+  function changePhoto(dir) {
+    currentIndex = (currentIndex + dir + images.length) % images.length;
+    const src = images[currentIndex].src;
+    document.getElementById("lightbox-img").src = src;
+    document.getElementById("lightbox-download").href = src;
+  }
+
+  const lightbox = document.getElementById("lightbox");
+
+  lightbox.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
   });
-});
+
+  lightbox.addEventListener("touchend", e => {
+    const endX = e.changedTouches[0].clientX;
+    if (startX - endX > 50) changePhoto(1);
+    if (endX - startX > 50) changePhoto(-1);
+  });
+
+  /* ADDED: blur-up loader */
+  document.querySelectorAll(".photo-card img").forEach(img => {
+    if (img.complete) img.classList.add("loaded");
+    img.addEventListener("load", () => img.classList.add("loaded"));
+  });
 </script>
 
 </body>
